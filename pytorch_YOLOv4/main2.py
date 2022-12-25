@@ -220,7 +220,7 @@ def detect_video(YOLO_Detection, YOLO_Seperation, filename):
     # fps = 5
     print("FPS: ", fps)
     # for h264 mp4 for html video player
-    fourcc = cv2.VideoWriter_fourcc(*'h264')
+    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     # or
     # fourcc = cv2.cv.CV_FOURCC(*'x264')
     out = cv2.VideoWriter(f'media/detected_videos/{original_filename}', fourcc, fps, (int(width), int(height)))
