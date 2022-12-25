@@ -201,7 +201,7 @@ def display_image(request):
         'number_plates': number_plates,
         # 'current_number': current_number_plate.number,
         'current_number_plates': current_number_plates,
-        'filename': filename,
+        'filename': filename.split('/')[-1],
         'title': 'DETECTIONS',
         'detection_count': detection_count,
         'recognition_count': recognition_count
@@ -221,11 +221,12 @@ def display_video(request):
     number_plates = VideoNumberPlate.objects.all()[::-1][0:10]
     # get current number plates from the database
     current_number_plates = number_plates[0:recognition_count]
+    # breakpoint()
     context = {
         'video': video,
         'number_plates': number_plates,
         'current_number_plates': current_number_plates,
-        'filename': filename,
+        'filename': video.name.split('/')[-1],
         'title': 'DETECTIONS',
         'detection_count': detection_count,
         'recognition_count': recognition_count

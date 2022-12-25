@@ -215,14 +215,14 @@ def detect_video(YOLO_Detection, YOLO_Seperation, filename):
     height, width, _ = frame.shape
     # fps
     # original
-    # fps = int(cap.get(cv2.CAP_PROP_FPS))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
     # 6 fps
-    fps = 6
+    # fps = 5
     print("FPS: ", fps)
     # for h264 mp4 for html video player
-    fourcc = cv2.VideoWriter_fourcc(*'H264')
+    fourcc = cv2.VideoWriter_fourcc(*'h264')
     # or
-    # fourcc = cv2.cv.CV_FOURCC(*'X264')
+    # fourcc = cv2.cv.CV_FOURCC(*'x264')
     out = cv2.VideoWriter(f'media/detected_videos/{original_filename}', fourcc, fps, (int(width), int(height)))
     output_numbers = []
     while ret:
@@ -241,7 +241,7 @@ def detect_video(YOLO_Detection, YOLO_Seperation, filename):
             for individual_char in segmented_charcters:
                 ch_x1, ch_y1, ch_x2, ch_y2 = individual_char
                 croped_char = frame[ch_y1:ch_y2, ch_x1:ch_x2]
-                frame = cv2.rectangle(frame, (ch_x1, ch_y1), (ch_x2, ch_y2), (255, 0, 0), 1)
+                _frame = cv2.rectangle(frame, (ch_x1, ch_y1), (ch_x2, ch_y2), (255, 0, 0), 1)
                 croped_char = cv2.resize(croped_char, cnn_img_dimensions)
                 croped_char = processImage(croped_char)
                 croped_char = croped_char.reshape(1, 32, 32, 1)
@@ -251,7 +251,7 @@ def detect_video(YOLO_Detection, YOLO_Seperation, filename):
                 # img1 = cv2.resize(cropped_img,(300,300))
                 # print(class_id,cnn_class_names[class_id])
                 output_number += cnn_class_names_en[class_id]
-            frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+            det_frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
             exists = False
 
             for items in output_numbers:
@@ -264,7 +264,7 @@ def detect_video(YOLO_Detection, YOLO_Seperation, filename):
                     output_numbers.append(result)
                     output_numbers_in_frame.append(output_number)
         print(f"Output Numbers:{output_number}")
-        out.write(frame)
+        out.write(det_frame)
 
         ret, frame = cap.read()
         try:
